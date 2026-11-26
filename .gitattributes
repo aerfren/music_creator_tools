@@ -1,0 +1,6 @@
+# Keep the Windows scripts byte-for-byte, including their original line endings.
+*.ps1 -text
+*.bat -text
+*.ttf binary
+*.zip binary
+*.key binary
