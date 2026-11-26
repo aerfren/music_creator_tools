@@ -21,6 +21,8 @@ The picture sits in a clear band, with a soft blurred fill around it. In the win
 - Keep **Balanced** title lines, so every line is the same size, or choose **Big Accent Line** when you want the last word larger.
 - Choose where a Short should crop (the person or main subject on the left, in the middle, or on the right), and where the title sits (top or bottom, left, center, or right).
 - Open a searchable list of every font installed on your Windows PC. Type part of a name to jump to it. **Oswald Bold** ships in the folder (`OswaldBold.ttf`) and is the default.
+- Set **White**, **Gold**, or **Black** for the top title lines, the last line, and the artist name. The artist color can stay on **Auto**.
+- Choose background shading: **Auto**, **Dark fade**, **Light fade**, or **None**. Auto uses a dark fade for light text and a light fade for black text. Black text gets a light outline so it stays readable on a bright photo.
 
 To choose your own line breaks, type a slash: `SMOKE AND / MIRRORS`.
 
@@ -33,7 +35,7 @@ Download: [`docs/downloads/thumbnail-maker.zip`](docs/downloads/thumbnail-maker.
 
 1. Unzip `thumbnail-maker.zip` and leave every file in that folder together.
 2. Optional: right-click `Make SunoMV Cover.bat` and choose **Send to → Desktop (create shortcut)**, so you can drop pictures on the shortcut.
-3. Drop a picture onto the bat file or the shortcut, set the title, artist, and font, then click **Make thumbnails**.
+3. Drop a picture onto the bat file or the shortcut, set the title, colors, and font, then click **Make thumbnails**.
 
 If Windows blocks the script, right-click `Make SunoMV Cover.ps1`, open **Properties**, tick **Unblock** if you see it, and click **OK**.
 

@@ -27,11 +27,19 @@ How to set it up
        Oswald Bold is the built-in default. The list also includes the fonts
        installed on your PC, so a font such as Kingthings Foundation will
        appear if you have it installed.
+     - Colors: set Top lines, Last line, and Artist to White, Gold, or Black
+       (Artist can also be Auto). This lets the whole title be one color, or
+       lets you choose which line is gold, white, or black.
+     - Shading: Auto picks a dark fade for light text and a light fade for
+       black text (best on bright photos). You can also choose Dark fade,
+       Light fade, or None.
 
 Tips
 - To pick your own line breaks in the title, type a slash:
     SMOKE AND / MIRRORS
-- Your last font, artist name, and layout choices are saved automatically.
+- Black text automatically gets a crisp light outline so it stays readable
+  on a light background.
+- Your last font, colors, artist name, and layout choices are saved automatically.
 - You do not need any extra apps or an internet connection to make covers
   and thumbnails. Windows already has everything this uses.
 
