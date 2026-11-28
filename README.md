@@ -2,7 +2,9 @@
 
 Two free Windows tools for independent musicians and YouTube creators, made by **[Penni (Fyuri) LeBlanc](https://www.youtube.com/@fyurileblanc7206)**.
 
-They are small, portable, and open source. Unzip a folder anywhere you like, keep the files in that folder together, and drag a picture or a song onto the `.bat` file. There is nothing to install.
+Both tools also work for video makers. The Thumbnail & Cover Maker can make thumbnails and a square cover for any video, not just songs. The YouTube Description Maker has a **Video** mode for regular (non-music) videos.
+
+They are small, portable, and open source. Unzip a folder anywhere you like, keep the files in that folder together, and drag a picture, a song, or a notes file onto the `.bat` file. There is nothing to install.
 
 A one-page download site is published from this repository at [aerfren.github.io/music_creator_tools](https://aerfren.github.io/music_creator_tools/).
 
@@ -16,8 +18,8 @@ Drop a picture on `Make SunoMV Cover.bat`. From that one picture the tool makes:
 
 The picture sits in a clear band, with a soft blurred fill around it. In the window you can:
 
-- Type the song title. Leave the title blank and the tool still makes the square cover, and skips the thumbnails.
-- Type your artist name. The tool remembers it for next time.
+- Type the **Title**. Leave it blank and the tool still makes the square cover, and skips the thumbnails.
+- Optionally type an **artist name, channel name, or subtitle**. The tool remembers it for next time. Leave it blank and that line is not drawn on the thumbnail.
 - Keep **Balanced** title lines, so every line is the same size, or choose **Big Accent Line** when you want the last word larger.
 - Choose where a Short should crop (the person or main subject on the left, in the middle, or on the right), and where the title sits (top or bottom, left, center, or right).
 - Open a searchable list of every font installed on your Windows PC. Type part of a name to jump to it. **Oswald Bold** ships in the folder (`OswaldBold.ttf`) and is the default.
@@ -26,7 +28,7 @@ The picture sits in a clear band, with a soft blurred fill around it. In the win
 
 To choose your own line breaks, type a slash: `SMOKE AND / MIRRORS`.
 
-PNG, JPG, WEBP, and BMP pictures all work. Covers and thumbnails are drawn on your computer, so this tool works offline.
+PNG, JPG, WEBP, and BMP pictures all work. Covers and thumbnails are drawn on your computer, so this tool works offline. The same window works for a song or for any other video.
 
 Folder: [`thumbnail-maker/`](thumbnail-maker/)  
 Download: [`docs/downloads/thumbnail-maker.zip`](docs/downloads/thumbnail-maker.zip)
@@ -35,26 +37,36 @@ Download: [`docs/downloads/thumbnail-maker.zip`](docs/downloads/thumbnail-maker.
 
 1. Unzip `thumbnail-maker.zip` and leave every file in that folder together.
 2. Optional: right-click `Make SunoMV Cover.bat` and choose **Send to → Desktop (create shortcut)**, so you can drop pictures on the shortcut.
-3. Drop a picture onto the bat file or the shortcut, set the title, colors, and font, then click **Make thumbnails**.
+3. Drop a picture onto the bat file or the shortcut, set the title (and an optional artist, channel name, or subtitle), colors, and font, then click **Make thumbnails**.
 
 If Windows blocks the script, right-click `Make SunoMV Cover.ps1`, open **Properties**, tick **Unblock** if you see it, and click **OK**.
 
 ## YouTube Description Maker
 
-Drop an MP3 or a `.txt` lyrics file on `Make YouTube Description.bat`. You can also double-click the bat file and paste the lyrics yourself. The tool then:
+Drop an MP3 or a `.txt` file on `Make YouTube Description.bat`. You can also double-click the bat file and paste the text yourself. Choose **Type: Song** or **Type: Video** (the tool remembers your last choice).
+
+In **Song** mode the tool:
 
 - Reads the song **title** and the **embedded lyrics** from the MP3's ID3 tags when those tags are present.
 - Reads a lyrics text file, or the words you paste into the window.
-- Uses **your own free Gemini API key** to write a clean introduction around those lyrics. Your lyrics are copied exactly, including section tags such as `[Verse 1]` and `[Chorus]`.
+- Uses **your own free Gemini API key** to write a clean introduction around those lyrics. Your lyrics are copied exactly, including section tags such as `[Verse 1]` and `[Chorus]`, unless you choose **Include lyrics: No**. That Yes/No choice is remembered.
+- Lets you pick a playlist or leave it on **Auto-pick** (Worship, Faith, Heartstrings, Watchman, Humor, or another short honest name).
+
+In **Video** mode, for regular (non-music) videos, drop or paste a `.txt` transcript, script, or notes, or just type the video title and a few notes. Gemini writes a short summary of the video and fitting hashtags. The transcript is not copied into the description, and music-only lines such as "Written and performed by" are left out.
+
+In either mode you can open **Options...** to turn on extras and type your own wording: a links list (a label plus a web address, with **Add** and **Paste link**), a subscribe line, timestamps or chapters, extra credits, a licensing or permission note, a contact or business line, a sheet-music line (Song mode), and an "anything else" box that is placed just above the hashtags. These stay off until you turn them on, and they are remembered for next time.
+
+The tool then:
+
 - Saves the finished description as a text file in `Documents\YouTube Descriptions`.
 - Copies that description to your clipboard.
 - Opens it in Notepad, ready to paste into YouTube.
 
 The first time you run it, paste a free key from [Google AI Studio](https://aistudio.google.com/apikey) (a Google account is required). In AI Studio, choose **Create API key**, copy it, and paste it into the window. The key is stored only on that computer, in a file named `gemini.key` beside the script. Keep that file on your computer. It is listed in `.gitignore` so a normal commit will leave it out.
 
-The same window remembers your artist name, an optional email for sheet-music requests, and the name on the copyright line. You can pick a playlist or leave it on **Auto-pick** and let the tool choose: Worship, Faith, Heartstrings, Watchman, Humor, or another short honest name.
+The same window remembers your artist name, an optional email for sheet-music requests, and the name on the copyright line.
 
-If the description is longer than YouTube's 5,000-character limit, the tool warns you and leaves the lyrics whole. When you write a new description with the same song name, the previous file is moved into an `old` folder with a date stamp, and kept.
+If the description is longer than YouTube's 5,000-character limit, the tool warns you and, in Song mode, leaves the lyrics whole. When you write a new description with the same title, the previous file is moved into an `old` folder with a date stamp, and kept.
 
 This tool needs the internet, because Gemini writes the introduction.
 
@@ -65,7 +77,7 @@ Download: [`docs/downloads/youtube-description-maker.zip`](docs/downloads/youtub
 
 1. Unzip `youtube-description-maker.zip` and leave the files together.
 2. Double-click `Make YouTube Description.bat`, paste your free Gemini API key, and fill in your artist name.
-3. Drop an MP3 or a lyrics `.txt` file onto the bat file (or paste the lyrics), check the title, and click **Write my description**.
+3. Choose **Song** or **Video**, drop an MP3 or a `.txt` file onto the bat file (or paste the text), check the title, and click **Write my description**. Open **Options...** if you want links or other extras.
 
 If Windows blocks the script, right-click `Make YouTube Description.ps1`, open **Properties**, tick **Unblock** if you see it, and click **OK**.
 
