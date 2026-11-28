@@ -1,8 +1,8 @@
-# SunoMV Cover and Thumbnail Maker
+﻿# SunoMV Cover and Thumbnail Maker
 # Drop a PICTURE on the icon (or the bat file) -> makes "<name> - cover square.png" next to your picture, plus YouTube and Short thumbnails in your Music\thumbnails folder (whole picture in the middle band, blurred fill).
-# Thumbnails: one options window for title, artist name, placement, style, font, and colors. Balanced line sizes are the default (Big Accent Line is optional).
+# Thumbnails: one options window for title, optional artist / channel / subtitle, placement, style, font, and colors. Balanced line sizes are the default (Big Accent Line is optional).
 # Type a font name in the Font box to jump to it. Your installed fonts, including any you added yourself, are listed.
-# Choose White, Gold, or Black for the top title lines, the last title line, and the artist name. Shading can be Auto, a dark fade, a light fade, or none.
+# Choose White, Gold, or Black for the top title lines, the last title line, and the optional artist / channel / subtitle line. Shading can be Auto, a dark fade, a light fade, or none.
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -205,7 +205,7 @@ function Ask-ThumbOptions($guess){
   $saved=Load-ThumbSettings
   $form=New-Object System.Windows.Forms.Form
   $form.Text='Thumbnail maker'
-  $form.Width=560; $form.Height=580
+  $form.Width=560; $form.Height=604
   $form.StartPosition='CenterScreen'
   $form.FormBorderStyle='FixedDialog'
   $form.MaximizeBox=$false; $form.MinimizeBox=$false
@@ -213,7 +213,7 @@ function Ask-ThumbOptions($guess){
   $form.Topmost=$true
 
   $y=16
-  $lbl=New-Object System.Windows.Forms.Label; $lbl.Text='Song title for the thumbnails:'; $lbl.Left=20; $lbl.Top=$y; $lbl.AutoSize=$true
+  $lbl=New-Object System.Windows.Forms.Label; $lbl.Text='Title:'; $lbl.Left=20; $lbl.Top=$y; $lbl.AutoSize=$true
   $form.Controls.Add($lbl)
   $y=40
   $titleBox=New-Object System.Windows.Forms.TextBox
@@ -250,13 +250,14 @@ function Ask-ThumbOptions($guess){
   $form.Controls.Add($styleHint)
 
   $y=286
-  $lArt=New-Object System.Windows.Forms.Label; $lArt.Text='Artist name:'; $lArt.Left=20; $lArt.Top=($y+3); $lArt.AutoSize=$true
+  $lArt=New-Object System.Windows.Forms.Label; $lArt.Text='Artist / channel / subtitle (optional):'; $lArt.Left=20; $lArt.Top=$y; $lArt.Width=504; $lArt.Height=22
   $form.Controls.Add($lArt)
+  $y=310
   $artistBox=New-Object System.Windows.Forms.TextBox
-  $artistBox.Left=160; $artistBox.Top=$y; $artistBox.Width=364; $artistBox.Text=$saved.artist
+  $artistBox.Left=20; $artistBox.Top=$y; $artistBox.Width=504; $artistBox.Text=$saved.artist
   $form.Controls.Add($artistBox)
 
-  $y=322
+  $y=346
   $l6=New-Object System.Windows.Forms.Label; $l6.Text='Font:'; $l6.Left=20; $l6.Top=($y+3); $l6.AutoSize=$true
   $form.Controls.Add($l6)
   $fontBox=New-Object System.Windows.Forms.ComboBox
@@ -283,14 +284,14 @@ function Ask-ThumbOptions($guess){
   $fontHint.ForeColor=[System.Drawing.Color]::FromArgb(80,80,80)
   $form.Controls.Add($fontHint)
 
-  $y=362
+  $y=386
   $topColors=@('White','Gold','Black')
   $savedTop=Normalize-ColorName $saved.topColor 'White'
   $savedLast=Normalize-ColorName $saved.lastColor 'Gold'
   $topColorBox=Add-LabeledCombo $form 'Top lines:' 20 $y 80 110 $topColors $savedTop
   $lastColorBox=Add-LabeledCombo $form 'Last line:' 260 $y 80 110 $topColors $savedLast
 
-  $y=396
+  $y=420
   $savedArtistColor=Normalize-ColorName $saved.artistColor 'Auto'
   if($savedArtistColor -notin 'Auto','White','Gold','Black'){ $savedArtistColor='Auto' }
   $savedShade=Normalize-ShadeName $saved.shade
@@ -298,10 +299,10 @@ function Ask-ThumbOptions($guess){
   $shadeBox=Add-LabeledCombo $form 'Shading:' 260 $y 80 150 @('Auto','Dark fade','Light fade','None') $savedShade
 
   $ok=New-Object System.Windows.Forms.Button
-  $ok.Text='Make thumbnails'; $ok.Width=160; $ok.Height=36; $ok.Left=160; $ok.Top=444
+  $ok.Text='Make thumbnails'; $ok.Width=160; $ok.Height=36; $ok.Left=160; $ok.Top=468
   $ok.DialogResult=[System.Windows.Forms.DialogResult]::OK
   $skip=New-Object System.Windows.Forms.Button
-  $skip.Text='Skip'; $skip.Width=90; $skip.Height=36; $skip.Left=334; $skip.Top=444
+  $skip.Text='Skip'; $skip.Width=90; $skip.Height=36; $skip.Left=334; $skip.Top=468
   $skip.DialogResult=[System.Windows.Forms.DialogResult]::Cancel
   $form.Controls.Add($ok); $form.Controls.Add($skip)
   $form.AcceptButton=$ok; $form.CancelButton=$skip
@@ -512,7 +513,7 @@ function Make-Thumbs($f){
     $sd= if($env:THUMB_SIDE){ $env:THUMB_SIDE } else { 'C' }
     $styleName= if($env:THUMB_STYLE){ $env:THUMB_STYLE } else { 'Balanced' }
     $fontName= if($env:THUMB_FONT){ $env:THUMB_FONT } else { 'Oswald Bold (default)' }
-    $artist= if($env:THUMB_ARTIST){ $env:THUMB_ARTIST } else { $defaultArtist }
+    $artist= if($null -ne $env:THUMB_ARTIST){ $env:THUMB_ARTIST } else { $defaultArtist }
     $topColor=Normalize-ColorName $env:THUMB_TOP_COLOR 'White'
     $lastColor=Normalize-ColorName $env:THUMB_LAST_COLOR 'Gold'
     $artistColor=Normalize-ColorName $env:THUMB_ARTIST_COLOR 'Auto'
@@ -560,7 +561,7 @@ function Make-Thumbs($f){
 
 function Show-HowTo{
   [System.Windows.Forms.MessageBox]::Show(
-    "Drop a picture onto 'Make SunoMV Cover' (this bat file, or a shortcut to it) to make a square cover and YouTube / Short thumbnails.`n`nIn the window that opens, you can type the song title, your artist name, pick a font, choose title colors (White, Gold, or Black), and pick shading for light or dark backgrounds.","Make SunoMV Cover"
+    "Drop a picture onto 'Make SunoMV Cover' (this bat file, or a shortcut to it) to make a square cover and YouTube / Short thumbnails for a song or any other video.`n`nIn the window that opens, you can type the title, optionally add an artist name, channel name, or subtitle (leave it blank to leave that line off), pick a font, choose title colors (White, Gold, or Black), and pick shading for light or dark backgrounds.","Make SunoMV Cover"
   ) | Out-Null
 }
 
